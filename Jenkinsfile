@@ -37,7 +37,7 @@ pipeline {
   stages{
     stage('Clean the workspace'){
       steps {
-        sh 'rm -rf *'
+        echo 'rm -rf *'
       }
     }
     stage('Variables Setup'){
@@ -156,7 +156,7 @@ pipeline {
         when { expression { return params.CLEAN_PRODUCT_DATABASE || params.CLEAN_ALL_DATABASE } }
         steps{
           dir('ema-commons'){
-            sh """
+            echo """
             $MAVEN_GOAL -f ema-commons-pd/ema-commons-pd-db-migration  \
             -Pproducts-clean -Dproducts.database.username=${CT_PRODUCT_USER} \
             -Dproducts.database.password=${CT_PRODUCT_PASSWORD}-Dproducts.database.url=${CT_DB_URL}
@@ -168,7 +168,7 @@ pipeline {
         when { expression { return params.RUN_PRODUCT_MIGRATION || params.RUN_ALL_MIGRATION } }
         steps{
           dir('ema-commons'){
-            sh """
+            echo """
             $MAVEN_GOAL -f ema-commons-pd/ema-commons-pd-db-migration  \
             -Pproducts-migrate -Dproducts.database.username=${CT_PRODUCT_USER} \
             -Dproducts.database.password=${CT_PRODUCT_PASSWORD} -Dproducts.database.url=${CT_DB_URL}
@@ -243,7 +243,7 @@ pipeline {
   }
   void runDatabaseMigration(db_user,db_password,profile_name,db_var_prefix,pom_file,ctcs_placeholder){
     dir('ema-ct-migration'){
-      sh """
+      echo """
       ${MAVEN_GOAL} -f ${pom_file} -P${profile_name} \
       -D${db_var_prefix}.database.url=${CT_DB_URL} \
       -D${db_var_prefix}.database.username=${db_user} \
@@ -257,7 +257,7 @@ pipeline {
 
   void runActivitiProcessMigration(db_user,db_password,profile_name){
     dir('ema-ct'){
-      sh """
+      echo """
       mvn -f 'ct-authority/ct-authority-activiti/pom.xml' package -P${profile_name} \
       -DskipTests -Dct-activiti.db.url=${CT_DB_URL} -Dactiviti.db.user=${db_user} \
       -Dactiviti.db.password=${db_password}
