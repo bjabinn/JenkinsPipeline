@@ -130,26 +130,26 @@ pipeline {
       //office365ConnectorSend message: "DB migraitons started for ${env.BRANCH_NAME}", status:"Started", webhookUrl:"${OFFICE_365_WEBHOOK}"
       }
     }
-      stage('Code Checkout'){
-        failFast true
-        parallel {
-          stage('CO-ema-commons'){
-            steps{
-              gitCheckout("ema-commons","ema-commons","$GIT_REF_EMA_COMMONS")
-            }
-          }
-          stage('CO-ema-ct-migration'){
-            steps{
-              gitCheckout("ema-ct-migration","ema-ct-migration","$GIT_REF_DB_MIGRATION")
-            }
-          }
-          stage('CO-ema-ct'){
-            steps{
-              gitCheckout("ema-ct","ema-ct","$GIT_REF_EMA_CT")
-            }
-          }
-        }
-      }
+      // stage('Code Checkout'){
+      //   failFast true
+      //   parallel {
+      //     stage('CO-ema-commons'){
+      //       steps{
+      //         gitCheckout("ema-commons","ema-commons","$GIT_REF_EMA_COMMONS")
+      //       }
+      //     }
+      //     stage('CO-ema-ct-migration'){
+      //       steps{
+      //         gitCheckout("ema-ct-migration","ema-ct-migration","$GIT_REF_DB_MIGRATION")
+      //       }
+      //     }
+      //     stage('CO-ema-ct'){
+      //       steps{
+      //         gitCheckout("ema-ct","ema-ct","$GIT_REF_EMA_CT")
+      //       }
+      //     }
+      //   }
+      // }
       stage ('Product DB Clean'){
         when { expression { return params.CLEAN_PRODUCT_DATABASE || params.CLEAN_ALL_DATABASE } }
         steps{
@@ -263,15 +263,15 @@ pipeline {
     }
   }
 
-  void gitCheckout(dir_name,project_name,git_release){
-    dir("${dir_name}"){
-      checkout([$class: 'GitSCM',
-      branches: [[name: "${git_release}"]],
-      userRemoteConfigs:
-      [[
-      url: "${GIT_BASE_URL}/${project_name}.git",
-      credentialsId: "${JENKINS_SSH_KEY_NAME}"
-      ]]
-      ])
-    }
-  }
+  // void gitCheckout(dir_name,project_name,git_release){
+  //   dir("${dir_name}"){
+  //     checkout([$class: 'GitSCM',
+  //     branches: [[name: "${git_release}"]],
+  //     userRemoteConfigs:
+  //     [[
+  //     url: "${GIT_BASE_URL}/${project_name}.git",
+  //     credentialsId: "${JENKINS_SSH_KEY_NAME}"
+  //     ]]
+  //     ])
+  //   }
+  // }
