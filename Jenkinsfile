@@ -23,11 +23,11 @@ pipeline {
     string(name: 'JENKINS_BUILD_BRANCH', defaultValue: 'master', description: 'Version of this project to use')
   }
   environment {
-    CT_DB_URL = 'jdbc:oracle:thin:@192.168.1.19:1522:CTMDEVDB'
-    GIT_BASE_URL = 'ssh://git@10.45.17.147:2222/ClinicalTrialRepositories'
+    CT_DB_URL = 'jdbc:oracle:thin:@192.168.1.11:1522:CTMDEVDB'
+    GIT_BASE_URL = 'ssh://git@1.4.1.1:2222/ClinicalTrialRepositories'
     JENKINS_SSH_KEY_NAME = 'jenkins-ssh-key'
     MAVEN_GOAL = 'mvn clean compile -Djava.security.egd=file:/dev/urandom'
-    OFFICE_365_WEBHOOK = 'https://outlook.office.com/webhook/0f9ead0b-b8e0-4a59-a593-2e5db5de76b1@3048dc87-43f0-4100-9acb-ae1971c79395/JenkinsCI/f4e52afeb94d4d7fa27211c964364c89/8c74092d-f563-4787-a644-170f9c6a83cb'
+    //OFFICE_365_WEBHOOK = 'https://outlook.office.com/webhook/0f9ead0b-b8e0-4a59-a593-2e5db5de76b1@3048dc87-43f0-4100-9acb-ae1971c79395/JenkinsCI/f4e52afeb94d4d7fa27211c964364c89/8c74092d-f563-4787-a644-170f9c6a83cb'
   }
   tools {
     maven "${params.mavenTool}"
@@ -127,7 +127,7 @@ pipeline {
             DWH_PASSWORD = 'CTIS_SR_INTERFACES'
           }          
         }
-      office365ConnectorSend message: "DB migraitons started for ${env.BRANCH_NAME}", status:"Started", webhookUrl:"${OFFICE_365_WEBHOOK}"
+      //office365ConnectorSend message: "DB migraitons started for ${env.BRANCH_NAME}", status:"Started", webhookUrl:"${OFFICE_365_WEBHOOK}"
       }
     }
       stage('Code Checkout'){
